@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Мой личный блог</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+  <h1>Мой личный блог 📖</h1>
+  <button id="themeToggle">🌙 Сменить тему</button>
+</header>
+
+<!-- Блок с фото и именем -->
+<section class="intro">
+  <img src="images/avatar.jpg" alt="Фото Алисы" class="avatar">
+  <h2>Меня зовут Алиса 🌸</h2>
+  <p>Добро пожаловать в мой уютный уголок в интернете</p>
+</section>
+
+  <main id="blog-container">
+    <!-- Сюда JS вставит посты -->
+  </main>
+
+  <!-- Модальное окно -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modal-title">Заголовок поста</h2>
+      <p id="modal-body">Текст поста...</p>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
