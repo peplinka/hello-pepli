@@ -13,7 +13,7 @@ function App() {
 
       <div className="container">
         <header>
-          <h1>🏥 Городская поликлиника №8</h1>
+          <h1>🏥 Городская поликлиника №1</h1>
           <p>Заботимся о вашем здоровье с 1985 года</p>
         </header>
 
@@ -27,22 +27,31 @@ function App() {
 
         <section className="location-section">
           <h2>📍 Наш адрес</h2>
-          <p><strong>
-ул. Правды, 13А, посёлок Дербышки, Советский район, Казань</strong></p>
+          <p><strong>г. Москва, ул. Ленина, д. 15</strong></p>
           <div className="map-placeholder">
             {/* Здесь позже можно вставить карту (например, Яндекс.Карты или Google Maps) */}
             <p>🗺️ Интерактивная карта будет здесь</p>
           </div>
         </section>
+        
 
-        <section className="news-section">
-          <h2>📰 Последние записи</h2>
-          <ul>
-            <li>📅 12.04.2025 — Вакцинация от гриппа доступна для всех возрастов</li>
-            <li>📅 10.04.2025 — Приём врача-невролога по субботам</li>
-            <li>📅 05.04.2025 — Новый рентген-кабинет открыт </li>
-          </ul>
-        </section>
+       <section className="news-section">
+  <h2>📰 Последние записи</h2>
+  <ul>
+    <li className="record-item">
+      <span className="record-icon">📅</span>
+      12.04.2025 — Вакцинация от гриппа доступна для всех возрастов
+    </li>
+    <li className="record-item">
+      <span className="record-icon">🩺</span>
+      10.04.2025 — Приём врача-невролога по субботам
+    </li>
+    <li className="record-item">
+      <span className="record-icon">🏥</span>
+      05.04.2025 — Новый рентген-кабинет открыт в корпусе Б
+    </li>
+  </ul>
+</section>
       </div>
     </div>
   );
