@@ -15,6 +15,7 @@ header p {
   
   font-size: 1.2rem;
   opacity: 0.9;
+  color:#000000;
 }
 
 section {
@@ -40,11 +41,14 @@ section {
 .dark  h2 {
   color: #f0f0f0;
 }
+.dark  h3 {
+  color: #000000;
+}
 .dark section {
   background-color: var(--section-bg, #5c5c5c); 
 }
 .dark p{
-  color:#f0f0f0;
+  color:#ffffff;
 }
 .dark .news-section li {
   border-bottom: 1px solid #eee;
