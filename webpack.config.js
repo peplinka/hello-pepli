@@ -11,39 +11,54 @@ module.exports = {
   },
   module: {
     rules: [
-    // 👇 НОВОЕ: обработка TypeScript
-    {
-      test: /\.(ts|tsx)$/,
-      exclude: /node_modules/,
-      use: 'ts-loader',
-    },
-    // Для JavaScript и JSX
-    {
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['@babel/preset-env', { targets: 'defaults' }],
-            ['@babel/preset-react', { runtime: 'automatic' }]
-          ],
+      // 👇 НОВОЕ: обработка TypeScript
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      // Для JavaScript и JSX
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: 'defaults' }],
+              ['@babel/preset-react', { runtime: 'automatic' }]
+            ],
+          },
         },
       },
-    },
-    // Для CSS
-    {
-      test: /\.css$/i,
-      use: ['style-loader', 'css-loader'],
-    },
-  ],
-},
+      // 👇 НОВОЕ: обработка CSS-модулей (важно: до обычного CSS)
+      {
+        test: /\.module\.css$/i,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]__[hash:base64:5]', // Опционально: настройка имён классов
+              },
+            },
+          },
+        ],
+      },
+      // Для обычных CSS файлов (должно идти ПОСЛЕ .module.css)
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
   resolve: {
-    extensions: ['.js', '.jsx',".ts", ".tsx"],
+    extensions: ['.js', '.jsx', ".ts", ".tsx"],
     alias: {
-            // Говорим, что @ заменяется на полный путь к директории ./src/
-            "@": path.join(__dirname, "src"),
-        }
+      // Говорим, что @ заменяется на полный путь к директории ./src/
+      "@": path.join(__dirname, "src"),
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
