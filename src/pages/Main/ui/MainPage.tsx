@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useTheme } from '../../../app/providers/theme/hooks/useTheme'; // ✅ Обновленный путь к хуку
-import { ThemeSwitch } from '../../../shared/ui/theme-switch/ThemeSwitch'; // ✅ Обновленный путь к компоненту
-
+import { useTheme } from '../../../app/providers/theme/hooks/useTheme';
+import { ThemeSwitch } from '../../../shared/ui/theme-switch/ThemeSwitch';
 
 export const MainPage: React.FC = () => {
-  const { theme } = useTheme(); // ✅ используем theme
+  const { theme } = useTheme();
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -15,24 +14,24 @@ export const MainPage: React.FC = () => {
 
   return (
     <div className={theme === 'dark' ? 'dark' : 'light'}>
-      <div className="container">
+      <div className="container"> {/* ✅ Стиль через @apply */}
         <header>
           <h1>🏥 Городская поликлиника №8</h1>
           <h3>Заботимся о вашем здоровье с 1985 года</h3>
-
-          <form onSubmit={handleSearch} className="search-form">
+<h1 className="test-red">Тест</h1>
+          <form onSubmit={handleSearch} className="search-form"> {/* ✅ Стиль через @apply */}
             <input
               type="text"
               placeholder="Найти врача, услугу или анализ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
+              className="search-input" 
             />
-            <button type="submit" className="search-button">🔍</button>
+            <button type="submit" className="search-button">🔍</button> {/* ✅ Стиль через @apply */}
           </form>
         </header>
 
-        <section className="info-section">
+        <section className="info-section"> {/* ✅ Стиль через @apply */}
           <h2>О нас</h2>
           <p>
             Мы — многопрофильная поликлиника, оказывающая высококачественные медицинские услуги взрослым и детям.
@@ -40,26 +39,26 @@ export const MainPage: React.FC = () => {
           </p>
         </section>
 
-        <section className="location-section">
+                <section className="location-section">
           <h2>📍 Наш адрес</h2>
           <p><strong>ул. Правды, 13А, посёлок Дербышки, Советский район, Казань</strong></p>
           <div className="map-container">
             <iframe
-              title="Карта поликлиники"
-              src="https://yandex.ru/maps/-/CLBHqPZc"
+              title="Карта поликлиники на Яндекс.Картах"
+              // Замените этот src на тот, что вы получите из конструктора
+              src="https://yandex.ru/map-widget/v1/?um=constructor%3A...ваш_уникальный_код..." 
               width="100%"
               height="400"
               frameBorder="0"
-              allowFullScreen
+              allowFullScreen={true}
             ></iframe>
           </div>
         </section>
-
-        <section className="news-section">
+        <section className="news-section"> {/* ✅ Стиль через @apply */}
           <h2>📰 Последние записи</h2>
           <ul>
-            <li className="record-item">
-              <span className="record-icon">📅</span>
+            <li className="record-item"> {/* ✅ Стиль через @apply */}
+              <span className="record-icon">📅</span> {/* ✅ Стиль через @apply */}
               12.04.2025 — Вакцинация от гриппа доступна для всех возрастов
             </li>
             <li className="record-item">

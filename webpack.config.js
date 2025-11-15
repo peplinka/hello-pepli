@@ -11,7 +11,7 @@ module.exports = {
   },
   module: {
     rules: [
-      // 👇 НОВОЕ: обработка TypeScript
+      // 👇 Обработка TypeScript
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
@@ -31,26 +31,21 @@ module.exports = {
           },
         },
       },
-      // 👇 НОВОЕ: обработка CSS-модулей (важно: до обычного CSS)
+      // Для CSS (с Tailwind и PostCSS)
       {
-        test: /\.module\.css$/i,
-        use: [
+        test: /\.css$/i,
+        use: [ // ✅ Только ОДНО правило для CSS
           'style-loader',
           {
             loader: 'css-loader',
             options: {
-              modules: {
-                localIdentName: '[name]__[local]__[hash:base64:5]', // Опционально: настройка имён классов
-              },
+              importLoaders: 1, // ВАЖНО: указывает, что после css-loader будет postcss-loader
             },
           },
+          'postcss-loader', // ✅ Обрабатывает @tailwind, @apply
         ],
       },
-      // Для обычных CSS файлов (должно идти ПОСЛЕ .module.css)
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
+      // ❌ УДАЛЕНО: Второе правило для .css
     ],
   },
   resolve: {
