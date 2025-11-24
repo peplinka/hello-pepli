@@ -52,12 +52,12 @@ module.exports = {
     extensions: ['.js', '.jsx', ".ts", ".tsx"],
     alias: {
       // Говорим, что @ заменяется на полный путь к директории ./src/
-      "@": path.join(__dirname, "src"),
+      "@": path.join(__dirname, "src"), // используем resolve
     }
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './public/index.html', // используем resolve
     }),
   ],
   devServer: {
