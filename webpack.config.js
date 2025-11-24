@@ -3,7 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -11,6 +11,12 @@ module.exports = {
   },
   module: {
     rules: [
+      // 👇 Обработка TypeScript
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
       // Для JavaScript и JSX
       {
         test: /\.(js|jsx)$/,
@@ -25,15 +31,29 @@ module.exports = {
           },
         },
       },
-      // Для CSS ← ЭТО БЫЛО ПРОПУЩЕНО!
+      // Для CSS (с Tailwind и PostCSS)
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [ // ✅ Только ОДНО правило для CSS
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1, // ВАЖНО: указывает, что после css-loader будет postcss-loader
+            },
+          },
+          'postcss-loader', // ✅ Обрабатывает @tailwind, @apply
+        ],
       },
+      // ❌ УДАЛЕНО: Второе правило для .css
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', ".ts", ".tsx"],
+    alias: {
+      // Говорим, что @ заменяется на полный путь к директории ./src/
+      "@": path.join(__dirname, "src"),
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
