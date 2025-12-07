@@ -5,5 +5,5 @@ export interface Doctor { // ✅ Обязательно export
   speciality: string;
   experience: number;
   description: string;
-  photoUrl?: string; // Опционально
+  photoUrl: string; // Опционально
 }

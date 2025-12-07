@@ -3,6 +3,7 @@
 @import "tailwindcss" layer(base);
 @import "tailwindcss" layer(components);
 @import "tailwindcss" layer(utilities);
+@import 'react-datepicker/dist/react-datepicker.css';
 
 /* === Определяем кастомные цвета через @theme === */
 @theme {

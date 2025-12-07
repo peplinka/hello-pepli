@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useTheme } from '../../../app/providers/theme/hooks/useTheme';
-import { ThemeSwitch } from '../../../shared/ui/theme-switch/ThemeSwitch';
+import { useTheme } from '@/shared/ui/providers/theme/hooks/useTheme';
+import { ThemeSwitch } from '@/shared/ui/theme-switch/ThemeSwitch';
 
 export const MainPage: React.FC = () => {
   const { theme } = useTheme();
@@ -18,7 +18,6 @@ export const MainPage: React.FC = () => {
         <header>
           <h1>🏥 Городская поликлиника №8</h1>
           <h3>Заботимся о вашем здоровье с 1985 года</h3>
-<h1 className="test-red">Тест</h1>
           <form onSubmit={handleSearch} className="search-form"> {/* ✅ Стиль через @apply */}
             <input
               type="text"

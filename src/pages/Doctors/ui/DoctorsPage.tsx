@@ -1,136 +1,126 @@
 // src/pages/Doctors/ui/DoctorsPage.tsx
 
 import React, { useState } from 'react';
-import { useTheme } from '../../../app/providers/theme/hooks/useTheme';
+import { useTheme } from '@/shared/ui/providers/theme/hooks/useTheme';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-// Тип для данных врача
+import { BookingModal } from '@/features/doctors/appointment/ui/BookingModal';
+
+import drIvanova from '@/shared/doctor/assets/images/doctor_IvanovaAnna.jpg';
+import drPetrov from '@/shared/doctor/assets/images/doctor_PetrovSergey.jpg';
+import drSidorova from '@/shared/doctor/assets/images/doctor_SidorovaMariya.avif';
+
 interface Doctor {
   id: number;
   name: string;
   specialty: string;
   description: string;
-  photo: string; // URL фото
+  photo: string;
 }
 
 export const DoctorsPage: React.FC = () => {
   const { theme } = useTheme();
 
-  // Данные врачей
   const doctorsData: Doctor[] = [
     {
       id: 1,
       name: 'Доктор Иванова Анна Сергеевна',
       specialty: 'Терапевт',
       description: 'Более 10 лет опыта. Специализируется на диагностике и лечении заболеваний внутренних органов.',
-      photo: 'https://via.placeholder.com/150x150/006b7d/ffffff?text=Доктор+Иванова',
+      photo: drIvanova,
     },
     {
       id: 2,
       name: 'Доктор Петров Сергей Алексеевич',
       specialty: 'Хирург',
       description: 'Высококвалифицированный хирург. Проводит операции широкого профиля.',
-      photo: 'https://via.placeholder.com/150x150/006b7d/ffffff?text=Доктор+Петров',
+      photo: drPetrov,
     },
     {
       id: 3,
       name: 'Доктор Сидорова Мария Николаевна',
       specialty: 'Невролог',
       description: 'Специалист в области заболеваний нервной системы. Индивидуальный подход к каждому пациенту.',
-      photo: 'https://via.placeholder.com/150x150/006b7d/ffffff?text=Доктор+Сидорова',
+      photo: drSidorova,
     },
   ];
 
-  // Состояние для отслеживания выбранного врача
+ const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
-  // Обработчик клика по карточке врача
   const handleCardClick = (doctor: Doctor) => {
-    // Если кликнули на того же врача - скрываем кнопку
-    if (selectedDoctor && selectedDoctor.id === doctor.id) {
-      setSelectedDoctor(null);
-    } else {
-      setSelectedDoctor(doctor);
+    setSelectedDoctor((prev) => (prev?.id === doctor.id ? null : doctor));
+  };
+
+  const openBookingModal = () => {
+    if (selectedDoctor) {
+      setIsModalOpen(true);
     }
   };
 
-  // Обработчик клика на "Записаться"
-  const handleBookClick = () => {
-    if (selectedDoctor) {
-      alert(`Вы выбрали запись к врачу: ${selectedDoctor.name}`);
-      // Здесь можно добавить логику записи (форма, API и т.д.)
-    }
+  const closeBookingModal = () => {
+    setIsModalOpen(false);
   };
+
+  const handleConfirmBooking = (date: Date, time: string) => {
+    alert(`Запись к ${selectedDoctor?.name} на ${date.toLocaleDateString('ru-RU')} в ${time}`);
+    closeBookingModal();
+  };
+
 
   return (
-    <div className="text-center">
-      <h2 className="text-[2rem] font-bold mb-[20px] mt-[40px]">
-        Наши Врачи
-      </h2>
-      <p className="mb-[40px] opacity-80">
+    <div className="text-center px-4 py-6">
+      <p className="text-[2rem] font-bold mb-5 mt-10">Наши Врачи</p>
+      <p className="text-[2rem] font-bold mb-5 mt-5">
         Познакомьтесь с нашими опытными специалистами
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {doctorsData.map((doctor) => (
           <div
             key={doctor.id}
             className={`
-              doctor-card
-              p-6 rounded-xl shadow-sm border
-              cursor-pointer
-              transition-all duration-200
-              hover:shadow-md
-              ${selectedDoctor?.id === doctor.id ? 'border-hospital-primary ring-1 ring-hospital-primary' : 'border-gray-300'}
-              ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white'}
+              p-6 rounded-xl shadow-sm border cursor-pointer
+              transition-all duration-200 hover:shadow-md
+              ${selectedDoctor?.id === doctor.id
+                ? 'border-hospital-primary ring-1 ring-hospital-primary'
+                : 'border-gray-300'}
+              ${theme === 'dark'
+                ? 'bg-gray-800 border-gray-700 text-white'
+                : 'bg-white text-hospital-dark'}
             `}
             onClick={() => handleCardClick(doctor)}
           >
             {/* Фото */}
-            <img
-              src={doctor.photo}
-              alt={`Фото ${doctor.name}`}
-              className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-            />
+            <div className="flex justify-center mb-4">
+              <img
+                src={doctor.photo}
+                alt={`Фото ${doctor.name}`}
+                className="w-24 h-24 rounded-full object-cover"
+              />
+            </div>
 
-            {/* Имя */}
             <h3 className="text-[1.5rem] font-semibold text-hospital-primary mb-2">
               {doctor.name}
             </h3>
+            <p className="font-medium mb-3">{doctor.specialty}</p>
+            <p className="opacity-80 mb-4">{doctor.description}</p>
 
-            {/* Специальность */}
-            <p className="text-hospital-dark mb-4 font-medium">
-              {doctor.specialty}
-            </p>
-
-            {/* Описание */}
-            <p className="text-gray-600 mb-4">
-              {doctor.description}
-            </p>
-
-
-               {/* Кнопка "Записаться" появляется при выборе карточки */}
+             {/* Кнопка "Записаться" */}
             {selectedDoctor?.id === doctor.id && (
               <button
-                className="
-                  w-full
-                  py-3
-                  px-4
-                  bg-hospital-accent text-white
-                  border-2 border-hospital-accent
-                  rounded-lg
-                  font-bold
-                  text-lg
-                  hover:bg-white
-                  hover:text-hospital-accent
-                  transition-colors
-                  duration-300
-                  shadow-md
-                  hover:shadow-lg
-                  mt-4
-                "
+                className={`
+                  w-full py-3 px-4 rounded-lg font-bold text-lg
+                  border-2 border-hospital-primary text-hospital-primary
+                  bg-transparent
+                  hover:bg-hospital-primary hover:text-white
+                  transition-colors duration-300
+                  shadow-sm hover:shadow-md mt-2
+                `}
                 onClick={(e) => {
-                  e.stopPropagation(); // Останавливаем всплытие, чтобы не срабатывал клик на карточку
-                  handleBookClick();
+                  e.stopPropagation();
+                  openBookingModal();
                 }}
               >
                 Записаться на приём
@@ -139,6 +129,17 @@ export const DoctorsPage: React.FC = () => {
           </div>
         ))}
       </div>
+
+
+      {/* Внешний модал из feature-слоя */}
+      {selectedDoctor && (
+        <BookingModal
+          isOpen={isModalOpen}
+          doctorName={selectedDoctor.name}
+          onClose={closeBookingModal}
+          onConfirm={handleConfirmBooking}
+        />
+      )}
     </div>
   );
 };

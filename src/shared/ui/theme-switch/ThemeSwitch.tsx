@@ -1,10 +1,10 @@
 import { SwitchBase } from '@/shared/ui/switch/base/Switch.base';
 import { SwitchOption } from '@/shared/ui/switch/option/Switch.option';
-import { useDispatchTheme, useTheme } from "@/app/providers/theme";
+import { useTheme, useDispatchTheme } from '@/shared/ui/providers/theme';
 import { LightThemeIcon } from "./LightThemeIcon";
 import { DarkThemeIcon } from "./DarkThemeIcon";
-import { E_Theme } from "@/app/providers/theme/types/theme.enum";
-import { E_ThemeAction } from "@/app/providers/theme/types/theme-action.enum";
+import { E_Theme } from "@/shared/ui/providers/theme/types/theme.enum";
+import { E_ThemeAction } from "@/shared/ui/providers/theme/types/theme-action.enum";
 import { Typo } from "@/shared/ui/typo";
 import { Switch } from '@/shared/ui/switch';
 

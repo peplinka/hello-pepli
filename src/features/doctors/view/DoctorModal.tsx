@@ -1,7 +1,7 @@
 // src/pages/Doctors/ui/DoctorModal.tsx
 import React from 'react';
-import { Modal } from '../../../shared/ui/Modal'; // Используем ваш базовый Modal
-import { Doctor } from '../model/types'; // ✅ Теперь путь корректен: ../model/types -> src/pages/Doctors/model/types.ts
+import { Modal } from '@/shared/ui/Modal'; // Используем ваш базовый Modal
+import { Doctor } from '@/entities/doctors/model/types'; // ✅ Теперь путь корректен: ../model/types -> src/pages/Doctors/model/types.ts
 
 interface DoctorModalProps {
   doctor: Doctor;

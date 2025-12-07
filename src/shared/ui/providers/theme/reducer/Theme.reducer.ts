@@ -1,7 +1,7 @@
-import { T_ThemeState } from "../types/theme-state.type";
-import { T_ThemeAction } from "../types/theme-action.type";
-import { E_Theme } from "../types/theme.enum";
-import { E_ThemeAction } from "../types/theme-action.enum";
+import type { T_ThemeState } from '../types/theme-state.type';
+import type { T_ThemeAction } from '../types/theme-action.type';
+import { E_Theme } from '../types/theme.enum';
+import { E_ThemeAction } from '../types/theme-action.enum';
 
 export const themeReducer = (state: T_ThemeState, action: T_ThemeAction): T_ThemeState => {
   switch (action.type) {
@@ -23,7 +23,7 @@ export const themeReducer = (state: T_ThemeState, action: T_ThemeAction): T_Them
 
     default: {
       // Проверка на случай добавления новых Action в будущем
-      const exhaustiveCheck: never = action;
+      const exhaustiveCheck: any = action;
       return state;
     }
   }

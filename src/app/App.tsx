@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { ThemeProvider } from './providers/theme/provider/Theme.provider';
+import { ThemeProvider } from '../shared/ui/providers/theme/provider/Theme.provider';
 import { ThemeSwitch } from '../shared/ui/theme-switch/ThemeSwitch';
-import { useTheme } from './providers/theme/hooks/useTheme';
+import { useTheme } from '../shared/ui/providers/theme/hooks/useTheme';
 
 import { MainPage } from '../pages/Main';
 import { DoctorsPage } from '../pages/Doctors';

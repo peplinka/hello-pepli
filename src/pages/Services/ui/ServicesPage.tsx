@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '../../../app/providers/theme/hooks/useTheme'; // ✅ Обновленный путь
+import { useTheme } from '../../../shared/ui/providers/theme/hooks/useTheme'; // ✅ Обновленный путь
 
 
 export const ServicesPage: React.FC = () => {

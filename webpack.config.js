@@ -31,41 +31,49 @@ module.exports = {
           },
         },
       },
+      // ✅ Исправленное правило для изображений (Webpack 5+)
+      {
+        test: /\.(png|jpe?g|gif|avif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]',
+        },
+      },
       // Для CSS (с Tailwind и PostCSS)
       {
         test: /\.css$/i,
-        use: [ // ✅ Только ОДНО правило для CSS
+        use: [
           'style-loader',
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1, // ВАЖНО: указывает, что после css-loader будет postcss-loader
+              importLoaders: 1,
             },
           },
-          'postcss-loader', // ✅ Обрабатывает @tailwind, @apply
+          'postcss-loader',
         ],
       },
-      // ❌ УДАЛЕНО: Второе правило для .css
     ],
   },
   resolve: {
     extensions: ['.js', '.jsx', ".ts", ".tsx"],
     alias: {
-      // Говорим, что @ заменяется на полный путь к директории ./src/
-      "@": path.join(__dirname, "src"), // используем resolve
+      "@": path.join(__dirname, "src"),
     }
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html', // используем resolve
+      template: './public/index.html',
     }),
   ],
   devServer: {
-    static: './public',
-    port: 8081,
-    open: true,
-    hot: true,
-    historyApiFallback: true,
+  static: {
+    directory: path.join(__dirname, 'public'),
   },
+  port: 8081,
+  open: true,
+  hot: true,
+  historyApiFallback: true,
+},
   mode: 'development',
 };
