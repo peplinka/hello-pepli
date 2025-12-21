@@ -1,10 +1,10 @@
 // src/features/appointment/ui/BookingModal.tsx
 
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useTheme } from '@/shared/ui/providers/theme/hooks/useTheme';
-import { getDefaultTimeSlots } from '../lib/time-slots';
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useTheme } from "@/shared/ui/providers/theme/hooks/useTheme";
+import { getDefaultTimeSlots } from "../lib/time-slots";
 
 interface BookingModalProps {
   doctorName: string;
@@ -45,7 +45,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         <div
           className={`
             relative rounded-xl shadow-2xl p-6 w-full max-w-md
-            ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-hospital-dark'}
+            ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-hospital-dark"}
             border border-gray-200 dark:border-gray-700
           `}
           onClick={(e) => e.stopPropagation()}
@@ -64,14 +64,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 onChange={(date) => setSelectedDate(date)}
                 inline
                 minDate={new Date()}
-                calendarClassName={theme === 'dark' ? 'dark' : ''}
+                calendarClassName={theme === "dark" ? "dark" : ""}
               />
             </div>
           ) : !selectedTime ? (
             /* Этап 2: выбор времени */
             <div>
               <p className="mb-2 text-center">
-                Вы выбрали: <strong>{selectedDate.toLocaleDateString('ru-RU')}</strong>
+                Вы выбрали:{" "}
+                <strong>{selectedDate.toLocaleDateString("ru-RU")}</strong>
               </p>
               <p className="mb-3 font-medium text-center">Выберите время:</p>
               <div className="grid grid-cols-4 gap-2 mb-6">
@@ -82,12 +83,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     className={`
                       py-2 px-3 rounded-lg text-sm font-medium
                       transition-colors
-                      ${theme === 'dark'
-                        ? 'bg-gray-700 hover:bg-gray-600'
-                        : 'bg-gray-100 hover:bg-gray-200'}
-                      ${selectedTime === time
-                        ? 'ring-2 ring-hospital-primary bg-hospital-primary text-white'
-                        : ''}
+                      ${
+                        theme === "dark"
+                          ? "bg-gray-700 hover:bg-gray-600"
+                          : "bg-gray-100 hover:bg-gray-200"
+                      }
+                      ${
+                        selectedTime === time
+                          ? "ring-2 ring-hospital-primary bg-hospital-primary text-white"
+                          : ""
+                      }
                     `}
                     onClick={() => setSelectedTime(time)}
                   >
@@ -111,7 +116,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <div className="text-center">
               <p className="mb-2">Вы выбрали:</p>
               <p className="text-lg font-semibold">
-                {selectedDate.toLocaleDateString('ru-RU')} в {selectedTime}
+                {selectedDate.toLocaleDateString("ru-RU")} в {selectedTime}
               </p>
               <p className="mb-4 text-hospital-primary">{doctorName}</p>
               <div className="flex justify-center gap-3">

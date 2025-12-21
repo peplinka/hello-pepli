@@ -1,1 +1,1 @@
-export {Typo} from "./Typo"
+export { Typo } from "./Typo";

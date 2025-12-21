@@ -8,7 +8,6 @@ interface I_ThemeProviderProps {
   children: ReactNode;
 }
 
-
 const getInitialTheme = (): E_Theme => {
   const saved = localStorage.getItem("theme");
   if (saved === E_Theme.Dark || saved === E_Theme.Light) {
@@ -18,8 +17,8 @@ const getInitialTheme = (): E_Theme => {
 };
 
 export const ThemeProvider: FC<I_ThemeProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(themeReducer, { 
-    theme: getInitialTheme() 
+  const [state, dispatch] = useReducer(themeReducer, {
+    theme: getInitialTheme(),
   });
 
   useEffect(() => {

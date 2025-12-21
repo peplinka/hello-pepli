@@ -27,6 +27,6 @@ export const Primary: Story = {
       speciality: "test",
       experience: 1,
       description: "test",
-    }
+    },
   },
 };

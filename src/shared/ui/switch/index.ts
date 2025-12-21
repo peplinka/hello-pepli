@@ -1,5 +1,5 @@
-import { SwitchBase } from './base/Switch.base';
-import { SwitchOption } from './option/Switch.option';
+import { SwitchBase } from "./base/Switch.base";
+import { SwitchOption } from "./option/Switch.option";
 
 export { SwitchBase, SwitchOption };
 

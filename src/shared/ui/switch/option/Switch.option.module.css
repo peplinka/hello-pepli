@@ -1,8 +1,8 @@
 .option {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .active {
-    background-color: var(--bg-accent);
+  background-color: var(--bg-accent);
 }

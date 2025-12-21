@@ -1,5 +1,6 @@
 // src/pages/Doctors/model/types.ts
-export interface Doctor { // ✅ Обязательно export
+export interface Doctor {
+  // ✅ Обязательно export
   id: string;
   name: string;
   speciality: string;

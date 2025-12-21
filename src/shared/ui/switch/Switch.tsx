@@ -1,9 +1,9 @@
-import {SwitchProvider} from "./provider/Switch.provider";
-import {SwitchBase} from "./base/Switch.base";
-import {SwitchOption} from "@/shared/ui/switch/option/Switch.option";
+import { SwitchProvider } from "./provider/Switch.provider";
+import { SwitchBase } from "./base/Switch.base";
+import { SwitchOption } from "@/shared/ui/switch/option/Switch.option";
 
 export const Switch = {
-    Provider: SwitchProvider,
-    Base: SwitchBase,
-    Option: SwitchOption,
-}
+  Provider: SwitchProvider,
+  Base: SwitchBase,
+  Option: SwitchOption,
+};

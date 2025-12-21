@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import clsx from "clsx";
-import { useSwitch } from '../hooks/useSwitch';
+import { useSwitch } from "../hooks/useSwitch";
 
 // Определяем тип пропсов
 interface SwitchOptionProps {
@@ -21,10 +21,7 @@ export const SwitchOption: React.FC<SwitchOptionProps> = (props) => {
 
   return (
     <button
-      className={clsx(
-        props.className,
-        currOption === props.name && 'active'
-      )}
+      className={clsx(props.className, currOption === props.name && "active")}
       onClick={setOption}
     >
       {props.children}

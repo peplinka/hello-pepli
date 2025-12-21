@@ -1,10 +1,10 @@
 // src/components/Modal.tsx (или путь, где вы его храните, например, src/shared/ui/Modal.tsx)
-import React from 'react';
+import React from "react";
 
 // Определяем тип пропсов
 interface ModalProps {
-  isOpen: boolean;           // Открыт ли модал
-  onClose: () => void;       // Функция для закрытия модала
+  isOpen: boolean; // Открыт ли модал
+  onClose: () => void; // Функция для закрытия модала
   children: React.ReactNode; // Содержимое модального окна
 }
 
@@ -14,7 +14,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✖️</button>
+        <button className="modal-close" onClick={onClose}>
+          ✖️
+        </button>
         {children}
       </div>
     </div>

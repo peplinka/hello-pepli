@@ -7,21 +7,24 @@ export type SwitchState = {
 
 // Определяем типы действий
 export type SwitchAction =
-  | { type: 'set'; payload: string } // payload должен соответствовать типу currOption
-  | { type: 'reset' }; // добавьте другие действия, если они есть
+  | { type: "set"; payload: string } // payload должен соответствовать типу currOption
+  | { type: "reset" }; // добавьте другие действия, если они есть
 
 // Редюсер с типизацией
-export const switchReducer = (state: SwitchState, action: SwitchAction): SwitchState => {
+export const switchReducer = (
+  state: SwitchState,
+  action: SwitchAction,
+): SwitchState => {
   switch (action.type) {
-    case 'set':
+    case "set":
       return {
         ...state,
         currOption: action.payload, // ✅ payload теперь типизирован как string
       };
-    case 'reset':
+    case "reset":
       return {
         ...state,
-        currOption: 'light', // или другое начальное значение
+        currOption: "light", // или другое начальное значение
       };
     default:
       // Проверка на случай добавления новых Action в будущем

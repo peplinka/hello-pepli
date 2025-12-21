@@ -1,15 +1,15 @@
 // src/pages/Doctors/ui/DoctorsPage.tsx
 
-import React, { useState } from 'react';
-import { useTheme } from '@/shared/ui/providers/theme/hooks/useTheme';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from "react";
+import { useTheme } from "@/shared/ui/providers/theme/hooks/useTheme";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-import { BookingModal } from '@/features/doctors/appointment/ui/BookingModal';
+import { BookingModal } from "@/features/doctors/appointment/ui/BookingModal";
 
-import drIvanova from '@/shared/doctor/assets/images/doctor_IvanovaAnna.jpg';
-import drPetrov from '@/shared/doctor/assets/images/doctor_PetrovSergey.jpg';
-import drSidorova from '@/shared/doctor/assets/images/doctor_SidorovaMariya.avif';
+import drIvanova from "@/shared/doctor/assets/images/doctor_IvanovaAnna.jpg";
+import drPetrov from "@/shared/doctor/assets/images/doctor_PetrovSergey.jpg";
+import drSidorova from "@/shared/doctor/assets/images/doctor_SidorovaMariya.avif";
 
 interface Doctor {
   id: number;
@@ -25,28 +25,31 @@ export const DoctorsPage: React.FC = () => {
   const doctorsData: Doctor[] = [
     {
       id: 1,
-      name: 'Доктор Иванова Анна Сергеевна',
-      specialty: 'Терапевт',
-      description: 'Более 10 лет опыта. Специализируется на диагностике и лечении заболеваний внутренних органов.',
+      name: "Доктор Иванова Анна Сергеевна",
+      specialty: "Терапевт",
+      description:
+        "Более 10 лет опыта. Специализируется на диагностике и лечении заболеваний внутренних органов.",
       photo: drIvanova,
     },
     {
       id: 2,
-      name: 'Доктор Петров Сергей Алексеевич',
-      specialty: 'Хирург',
-      description: 'Высококвалифицированный хирург. Проводит операции широкого профиля.',
+      name: "Доктор Петров Сергей Алексеевич",
+      specialty: "Хирург",
+      description:
+        "Высококвалифицированный хирург. Проводит операции широкого профиля.",
       photo: drPetrov,
     },
     {
       id: 3,
-      name: 'Доктор Сидорова Мария Николаевна',
-      specialty: 'Невролог',
-      description: 'Специалист в области заболеваний нервной системы. Индивидуальный подход к каждому пациенту.',
+      name: "Доктор Сидорова Мария Николаевна",
+      specialty: "Невролог",
+      description:
+        "Специалист в области заболеваний нервной системы. Индивидуальный подход к каждому пациенту.",
       photo: drSidorova,
     },
   ];
 
- const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
   const handleCardClick = (doctor: Doctor) => {
@@ -64,10 +67,11 @@ export const DoctorsPage: React.FC = () => {
   };
 
   const handleConfirmBooking = (date: Date, time: string) => {
-    alert(`Запись к ${selectedDoctor?.name} на ${date.toLocaleDateString('ru-RU')} в ${time}`);
+    alert(
+      `Запись к ${selectedDoctor?.name} на ${date.toLocaleDateString("ru-RU")} в ${time}`,
+    );
     closeBookingModal();
   };
-
 
   return (
     <div className="text-center px-4 py-6">
@@ -83,12 +87,16 @@ export const DoctorsPage: React.FC = () => {
             className={`
               p-6 rounded-xl shadow-sm border cursor-pointer
               transition-all duration-200 hover:shadow-md
-              ${selectedDoctor?.id === doctor.id
-                ? 'border-hospital-primary ring-1 ring-hospital-primary'
-                : 'border-gray-300'}
-              ${theme === 'dark'
-                ? 'bg-gray-800 border-gray-700 text-white'
-                : 'bg-white text-hospital-dark'}
+              ${
+                selectedDoctor?.id === doctor.id
+                  ? "border-hospital-primary ring-1 ring-hospital-primary"
+                  : "border-gray-300"
+              }
+              ${
+                theme === "dark"
+                  ? "bg-gray-800 border-gray-700 text-white"
+                  : "bg-white text-hospital-dark"
+              }
             `}
             onClick={() => handleCardClick(doctor)}
           >
@@ -107,7 +115,7 @@ export const DoctorsPage: React.FC = () => {
             <p className="font-medium mb-3">{doctor.specialty}</p>
             <p className="opacity-80 mb-4">{doctor.description}</p>
 
-             {/* Кнопка "Записаться" */}
+            {/* Кнопка "Записаться" */}
             {selectedDoctor?.id === doctor.id && (
               <button
                 className={`
@@ -129,7 +137,6 @@ export const DoctorsPage: React.FC = () => {
           </div>
         ))}
       </div>
-
 
       {/* Внешний модал из feature-слоя */}
       {selectedDoctor && (

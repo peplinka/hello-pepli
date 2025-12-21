@@ -12,9 +12,7 @@
     "strict": true,
     "noImplicitReturns": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "plugins": [
       {

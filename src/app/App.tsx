@@ -1,15 +1,15 @@
 // src/app/App.tsx
 
-import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { ThemeProvider } from '../shared/ui/providers/theme/provider/Theme.provider';
-import { ThemeSwitch } from '../shared/ui/theme-switch/ThemeSwitch';
-import { useTheme } from '../shared/ui/providers/theme/hooks/useTheme';
+import React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { ThemeProvider } from "../shared/ui/providers/theme/provider/Theme.provider";
+import { ThemeSwitch } from "../shared/ui/theme-switch/ThemeSwitch";
+import { useTheme } from "../shared/ui/providers/theme/hooks/useTheme";
 
-import { MainPage } from '../pages/Main';
-import { DoctorsPage } from '../pages/Doctors';
-import { ServicesPage } from '../pages/Services';
-import { ContactsPage } from '../pages/Contacts';
+import { MainPage } from "../pages/Main";
+import { DoctorsPage } from "../pages/Doctors";
+import { ServicesPage } from "../pages/Services";
+import { ContactsPage } from "../pages/Contacts";
 
 const App: React.FC = () => {
   const { theme } = useTheme();
@@ -18,15 +18,26 @@ const App: React.FC = () => {
     <BrowserRouter>
       <ThemeProvider>
         {/* Этот div задаёт тему (светлая/тёмная) */}
-        <div className={`${theme === 'dark' ? 'dark bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
+        <div
+          className={`${theme === "dark" ? "dark bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"}`}
+        >
           {/* Этот div ограничивает ширину и центрирует ВЕСЬ КОНТЕНТ */}
-          <div className="min-h-screen flex flex-col items-center bg-repeat-x bg-center bg-cover"
-               style={{ backgroundImage: 'url(https://example.com/your-background-pattern.png)' /* или уберите, если не нужно */ }}>
-            <div className="w-full max-w-[1080px] mx-auto px-4 py-8"> {/* ✅ Центральный контейнер */}
-              <nav className="
+          <div
+            className="min-h-screen flex flex-col items-center bg-repeat-x bg-center bg-cover"
+            style={{
+              backgroundImage:
+                "url(https://example.com/your-background-pattern.png)" /* или уберите, если не нужно */,
+            }}
+          >
+            <div className="w-full max-w-[1080px] mx-auto px-4 py-8">
+              {" "}
+              {/* ✅ Центральный контейнер */}
+              <nav
+                className="
                 main-nav
                 flex justify-between items-center py-[15px] px-[20px] bg-hospital-secondary shadow-md rounded-lg mb-[20px]
-              ">
+              "
+              >
                 <ul className="flex gap-[24px] m-0 p-0 list-none">
                   <li>
                     <Link
@@ -75,7 +86,6 @@ const App: React.FC = () => {
                 </ul>
                 <ThemeSwitch />
               </nav>
-
               {/* Этот div заменяет ваш .container из предыдущих версий */}
               <div className="container mx-auto px-5 py-10">
                 <Routes>

@@ -1,5 +1,5 @@
-import { createContext, Dispatch } from 'react';
-import { SwitchState, SwitchAction } from '../reducer/Switch.reducer'; // ✅ Импортируем SwitchAction
+import { createContext, Dispatch } from "react";
+import { SwitchState, SwitchAction } from "../reducer/Switch.reducer"; // ✅ Импортируем SwitchAction
 
 // Определяем тип, который будет у значения контекста
 type SwitchContextType = {

@@ -1,7 +1,7 @@
 // src/pages/Doctors/ui/DoctorModal.tsx
-import React from 'react';
-import { Modal } from '@/shared/ui/Modal'; // Используем ваш базовый Modal
-import { Doctor } from '@/entities/doctors/model/types'; // ✅ Теперь путь корректен: ../model/types -> src/pages/Doctors/model/types.ts
+import React from "react";
+import { Modal } from "@/shared/ui/Modal"; // Используем ваш базовый Modal
+import { Doctor } from "@/entities/doctors/model/types"; // ✅ Теперь путь корректен: ../model/types -> src/pages/Doctors/model/types.ts
 
 interface DoctorModalProps {
   doctor: Doctor;
@@ -9,7 +9,11 @@ interface DoctorModalProps {
   onClose: () => void;
 }
 
-export const DoctorModal: React.FC<DoctorModalProps> = ({ doctor, isOpen, onClose }) => {
+export const DoctorModal: React.FC<DoctorModalProps> = ({
+  doctor,
+  isOpen,
+  onClose,
+}) => {
   if (!isOpen) return null;
 
   return (

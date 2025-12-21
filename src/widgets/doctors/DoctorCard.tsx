@@ -1,8 +1,8 @@
 // src/pages/Doctors/ui/DoctorCard.tsx
 
-import React, { useState } from 'react';
-import { DoctorModal } from '@/features/doctors/view/DoctorModal';
-import { Doctor } from '@/entities/doctors/model/types';
+import React, { useState } from "react";
+import { DoctorModal } from "@/features/doctors/view/DoctorModal";
+import { Doctor } from "@/entities/doctors/model/types";
 
 interface DoctorCardProps {
   doctor: Doctor;
@@ -26,7 +26,9 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
       </div>
 
       {/* Информация */}
-      <h3 className="text-lg font-semibold text-hospital-dark">{doctor.name}</h3>
+      <h3 className="text-lg font-semibold text-hospital-dark">
+        {doctor.name}
+      </h3>
       <p className="text-sm text-hospital-primary mb-3">{doctor.speciality}</p>
 
       {/* Кнопка */}
@@ -38,11 +40,7 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
       </button>
 
       {/* Модалка */}
-      <DoctorModal
-        doctor={doctor}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      />
+      <DoctorModal doctor={doctor} isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

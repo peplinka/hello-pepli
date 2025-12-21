@@ -1,6 +1,6 @@
-import React, { useReducer } from 'react';
-import { SwitchContext } from '../context/Switch.context';
-import { switchReducer } from '../reducer/Switch.reducer';
+import React, { useReducer } from "react";
+import { SwitchContext } from "../context/Switch.context";
+import { switchReducer } from "../reducer/Switch.reducer";
 // ❗ Убедитесь, что типы State и DispatchAction определены в Switch.reducer.ts или отдельно
 
 // Опционально: если типы State и DispatchAction не экспортируются из редюсера
@@ -28,7 +28,7 @@ export const SwitchProvider: React.FC<SwitchProviderProps> = ({ children }) => {
 
   // Если типы не экспортируются или вы используете простые типы:
   const [state, dispatch] = useReducer(switchReducer, {
-    currOption: 'light', // ← значение по умолчанию
+    currOption: "light", // ← значение по умолчанию
   });
 
   return (
