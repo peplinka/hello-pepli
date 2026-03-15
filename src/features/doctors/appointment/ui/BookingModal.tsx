@@ -1,42 +1,99 @@
-// src/features/appointment/ui/BookingModal.tsx
-
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useTheme } from "@/shared/ui/providers/theme/hooks/useTheme";
 import { getDefaultTimeSlots } from "../lib/time-slots";
 
+interface Doctor {
+  id: number;
+  name: string;
+  specialty: string;
+}
+
 interface BookingModalProps {
-  doctorName: string;
+  doctor: Doctor;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (date: Date, time: string) => void;
+  onSuccess?: () => void;
+  isLoading?: boolean;  // ← ← ← Новый проп для управления загрузкой извне
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({
-  doctorName,
+  doctor,
   isOpen,
   onClose,
-  onConfirm,
+  onSuccess,
+  isLoading = false,  // ← По умолчанию false
 }) => {
   const { theme } = useTheme();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [error, setError] = useState("");
   const timeSlots = getDefaultTimeSlots();
 
   if (!isOpen) return null;
 
-  const handleConfirm = () => {
-    if (selectedDate && selectedTime) {
-      onConfirm(selectedDate, selectedTime);
+  const handleConfirm = async () => {
+    if (!selectedDate || !selectedTime) return;
+
+    setError("");
+
+    // Получаем данные пользователя
+    const userStr = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (!userStr || !token) {
+      setError("Пожалуйста, войдите в систему");
+      return;
+    }
+
+    const user = JSON.parse(userStr);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/appointments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          doctorId: doctor.id,
+          doctorName: doctor.name,
+          date: selectedDate.toISOString().split("T")[0],
+          time: selectedTime,
+          comment: "",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Ошибка при создании записи");
+      }
+
+      // Успех!
+      if (onSuccess) {
+        onSuccess();
+      }
+      
+      // Закрываем модалку
+      onClose();
+      
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ошибка подключения к серверу");
+      // Не сбрасываем loading здесь — это делает родитель
     }
   };
+
+  // Блокируем взаимодействие если внешняя загрузка
+  const isDisabled = isLoading;
 
   return (
     <>
       {/* Фон с blur */}
       <div
-        className="fixed inset-0 backdrop-blur-sm bg-white/30 dark:bg-black/30 z-40"
+        className={`fixed inset-0 backdrop-blur-sm bg-white/30 dark:bg-black/30 z-40 ${isDisabled ? "pointer-events-none" : ""}`}
         onClick={onClose}
       />
 
@@ -47,13 +104,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             relative rounded-xl shadow-2xl p-6 w-full max-w-md
             ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-hospital-dark"}
             border border-gray-200 dark:border-gray-700
+            ${isDisabled ? "opacity-70 pointer-events-none" : ""}
           `}
           onClick={(e) => e.stopPropagation()}
         >
           <h3 className="text-xl font-bold text-hospital-primary mb-4 text-center">
-            Запись к доктору
+            📅 Запись к врачу
           </h3>
-          <p className="mb-4 text-center opacity-90">{doctorName}</p>
+          <p className="mb-4 text-center opacity-90 font-medium">{doctor.name}</p>
+          <p className="mb-6 text-center text-sm opacity-75">{doctor.specialty}</p>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
 
           {/* Этап 1: выбор даты */}
           {!selectedDate ? (
@@ -61,10 +126,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <p className="mb-4 text-center">Выберите дату приёма:</p>
               <DatePicker
                 selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
+                onChange={(date) => !isDisabled && setSelectedDate(date)}
                 inline
                 minDate={new Date()}
                 calendarClassName={theme === "dark" ? "dark" : ""}
+                disabled={isDisabled}
               />
             </div>
           ) : !selectedTime ? (
@@ -80,6 +146,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <button
                     key={time}
                     type="button"
+                    disabled={isDisabled}
                     className={`
                       py-2 px-3 rounded-lg text-sm font-medium
                       transition-colors
@@ -93,8 +160,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                           ? "ring-2 ring-hospital-primary bg-hospital-primary text-white"
                           : ""
                       }
+                      ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
                     `}
-                    onClick={() => setSelectedTime(time)}
+                    onClick={() => !isDisabled && setSelectedTime(time)}
                   >
                     {time}
                   </button>
@@ -102,7 +170,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
               <button
                 type="button"
-                className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 block mx-auto"
+                disabled={isDisabled}
+                className={`text-sm block mx-auto ${
+                  isDisabled 
+                    ? "text-gray-400 cursor-not-allowed" 
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                }`}
                 onClick={() => {
                   setSelectedDate(null);
                   setSelectedTime(null);
@@ -114,25 +187,30 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           ) : (
             /* Этап 3: подтверждение */
             <div className="text-center">
-              <p className="mb-2">Вы выбрали:</p>
-              <p className="text-lg font-semibold">
-                {selectedDate.toLocaleDateString("ru-RU")} в {selectedTime}
-              </p>
-              <p className="mb-4 text-hospital-primary">{doctorName}</p>
+              <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <p className="text-sm mb-2 opacity-75">Вы выбрали:</p>
+                <p className="text-lg font-bold text-hospital-primary">
+                  {selectedDate.toLocaleDateString("ru-RU")} в {selectedTime}
+                </p>
+                <p className="mt-2 font-medium">{doctor.name}</p>
+              </div>
+              
               <div className="flex justify-center gap-3">
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-lg text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100"
+                  className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => setSelectedTime(null)}
+                  disabled={isDisabled}
                 >
                   Назад
                 </button>
                 <button
                   type="button"
-                  className="px-4 py-2 bg-hospital-primary text-white rounded-lg font-medium hover:bg-opacity-90"
+                  className="px-6 py-2 bg-hospital-primary text-white rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleConfirm}
+                  disabled={isDisabled}
                 >
-                  Записаться
+                  {isLoading ? "⏳ Запись..." : "✅ Подтвердить запись"}
                 </button>
               </div>
             </div>
@@ -140,8 +218,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
           {/* Кнопка закрытия */}
           <button
-            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl disabled:opacity-50"
             onClick={onClose}
+            disabled={isDisabled}
           >
             ✕
           </button>

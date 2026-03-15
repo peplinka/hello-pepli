@@ -11,7 +11,7 @@
   "scripts": {
     "prepare": "husky install",
     "start": "webpack serve --mode development",
-    "dev": "webpack serve --mode development --open",
+    "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -62,10 +62,10 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/node": "^24.10.9",
-    "@types/react": "^19.2.10",
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.2.2",
     "@types/react-datepicker": "^6.2.0",
-    "@types/react-dom": "^19.2.3",
+    "@types/react-dom": "^19.2.2",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
     "autoprefixer": "^10.4.22",
@@ -96,5 +96,4 @@
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2"
   }
-  
 }

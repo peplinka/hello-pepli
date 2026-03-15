@@ -1,6 +1,9 @@
+// src/pages/Doctors/ui/DoctorsPage.tsx
+
 import React, { useState } from "react";
 import { useTheme } from "@/shared/ui/providers/theme/hooks/useTheme";
-import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { BookingModal } from "@/features/doctors/appointment/ui/BookingModal";
 
@@ -18,7 +21,6 @@ interface Doctor {
 
 export const DoctorsPage: React.FC = () => {
   const { theme } = useTheme();
-  const navigate = useNavigate();
 
   const doctorsData: Doctor[] = [
     {
@@ -49,101 +51,26 @@ export const DoctorsPage: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
-  const [bookingError, setBookingError] = useState("");
-  const [isBooking, setIsBooking] = useState(false);
-
-  // ✅ Обработка успешной записи
-  const handleBookingSuccess = () => {
-    alert(`✅ Запись успешно создана!\nВрач: ${selectedDoctor?.name}`);
-    setIsModalOpen(false);
-    setBookingError("");
-  };
 
   const handleCardClick = (doctor: Doctor) => {
     setSelectedDoctor((prev) => (prev?.id === doctor.id ? null : doctor));
   };
 
   const openBookingModal = () => {
-    // 🔐 Проверка авторизации
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    
-    if (!token || !user) {
-      navigate("/auth", { state: { from: "/doctors" } });
-      return;
-    }
-    
     if (selectedDoctor) {
-      setBookingError("");
       setIsModalOpen(true);
     }
   };
 
   const closeBookingModal = () => {
     setIsModalOpen(false);
-    setBookingError("");
   };
 
-  // ✅ Основная функция записи
-  const handleConfirmBooking = async (date: Date, time: string) => {
-    if (!selectedDoctor) return;
-    
-    // 1. Включаем загрузку
-    setIsBooking(true);
-    setBookingError("");
-
-    // 2. Проверяем авторизацию
-    const userStr = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    
-    if (!userStr || !token) {
-      setBookingError("Пожалуйста, войдите в систему");
-      setIsBooking(false);
-      navigate("/auth");
-      return;
-    }
-
-    const user = JSON.parse(userStr);
-
-    try {
-      // 3. Отправка на Go backend
-      const response = await fetch("http://localhost:8080/api/appointments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          doctorId: selectedDoctor.id,
-          doctorName: selectedDoctor.name,
-          date: date.toISOString().split("T")[0],
-          time: time,
-          comment: "",
-        }),
-      });
-
-      const data = await response.json();
-
-     if (!response.ok) {
-    const data = await response.json();
-    throw new Error(data.message || "Ошибка при создании записи");
-  }
-      // 4. Успех
-      handleBookingSuccess();
-      
-    } catch (err) {
-  console.error("Booking error:", err);
-  const errorMsg = err instanceof Error ? err.message : "Ошибка подключения к серверу";
-  
-  // Показываем ошибку в красном блоке
-  setBookingError(errorMsg);
-  
-  // И в alert для наглядности
-  alert("❌ " + errorMsg);
-} finally {
-  setIsBooking(false);
-}
+  const handleConfirmBooking = (date: Date, time: string) => {
+    alert(
+      `Запись к ${selectedDoctor?.name} на ${date.toLocaleDateString("ru-RU")} в ${time}`,
+    );
+    closeBookingModal();
   };
 
   return (
@@ -198,42 +125,26 @@ export const DoctorsPage: React.FC = () => {
                   hover:bg-hospital-primary hover:text-white
                   transition-colors duration-300
                   shadow-sm hover:shadow-md mt-2
-                  ${isBooking ? "opacity-50 cursor-not-allowed" : ""}
                 `}
                 onClick={(e) => {
                   e.stopPropagation();
                   openBookingModal();
                 }}
-                disabled={isBooking}
               >
-                {isBooking ? "Запись..." : "Записаться на приём"}
+                Записаться на приём
               </button>
             )}
           </div>
         ))}
       </div>
 
-      {/* 🔴 Уведомление об ошибке */}
-      {bookingError && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg">
-          {bookingError}
-          <button 
-            className="ml-4 font-bold" 
-            onClick={() => setBookingError("")}
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {/* Модальное окно записи */}
+      {/* Внешний модал из feature-слоя */}
       {selectedDoctor && (
         <BookingModal
-          doctor={selectedDoctor}
           isOpen={isModalOpen}
+          doctorName={selectedDoctor.name}
           onClose={closeBookingModal}
-          onSuccess={handleBookingSuccess}
-          isLoading={isBooking}
+          onConfirm={handleConfirmBooking}
         />
       )}
     </div>
