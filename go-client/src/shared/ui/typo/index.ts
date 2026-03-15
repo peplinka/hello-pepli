@@ -1,1 +1,0 @@
-export { Typo } from "./Typo";

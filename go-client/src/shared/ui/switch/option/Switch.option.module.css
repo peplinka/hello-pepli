@@ -1,8 +1,0 @@
-.option {
-  display: flex;
-  align-items: center;
-}
-
-.active {
-  background-color: var(--bg-accent);
-}

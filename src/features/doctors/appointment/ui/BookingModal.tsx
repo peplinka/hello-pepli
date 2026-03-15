@@ -15,6 +15,7 @@ interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+   onConfirm: (date: Date, time: string) => void;  
   isLoading?: boolean;  // ← ← ← Новый проп для управления загрузкой извне
 }
 

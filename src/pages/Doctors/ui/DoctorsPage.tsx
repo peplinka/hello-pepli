@@ -228,13 +228,13 @@ export const DoctorsPage: React.FC = () => {
 
       {/* Модальное окно записи */}
       {selectedDoctor && (
-        <BookingModal
-          doctor={selectedDoctor}
-          isOpen={isModalOpen}
-          onClose={closeBookingModal}
-          onSuccess={handleBookingSuccess}
-          isLoading={isBooking}
-        />
+          <BookingModal
+        doctor={selectedDoctor}            // ← ✅ ИСПРАВЛЕНО!
+        isOpen={isModalOpen}
+        onClose={closeBookingModal}
+        onConfirm={handleConfirmBooking}
+        isLoading={isBooking}
+      />
       )}
     </div>
   );
